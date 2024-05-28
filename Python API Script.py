@@ -14,7 +14,7 @@ def generate_random_id(base_id):
 def call_api():
     base_id = "177962"  # Base ID
     random_id = generate_random_id(base_id)  # Generate a new random ID
-    print(random_id,'random_id')
+    print(random_id, 'random_id')
     url = "http://apid.adfalcon.com/rtb/bid?pid=712"
     payload = {
         "id": random_id,
@@ -66,10 +66,26 @@ def call_api():
 
     try:
         response = requests.post(url, headers=headers, data=json.dumps(payload))
-        print(response,'response testing')
+        print(response, 'response testing')
         logging.info("Testing API call...")
-        if response.status_code == 204:
-            logging.info("No Content")
+        if response.status_code == 200:
+            logging.info("ok/success")
+            new_url = "http://apid.adfalcon.com/RC/607831cf615146f3b2d86d892997ce61133607676308923618_0_b7d36c84-c359-451a-9600-5348d26d72a3?s=0.900"
+            new_response = requests.get(new_url)
+            print(new_response,'new_response')
+            if new_response.status_code == 200:
+                logging.info("Adfaction API call successful")
+                logging.info(f"Adfaction API response: {new_response.text}")
+                last_url = "http://apid.adfalcon.com/RB/607831cf615146f3b2d86d892997ce61133607676308923618_0_b7d36c84-c359-451a-9600-5348d26d72a3?s=1&p=0.900"
+                last_response = requests.get(last_url)
+                print(last_response,'last_response')
+                if last_response.status_code == 200:
+                    logging.info(f"adfimpTrackerURLs API response: {new_response.text}")
+                    print('successfully run')  
+                else:
+                       logging.error(f"adfimpTrackerURLs API failed: {new_response.status_code}")      
+            else:
+                logging.error(f"Second API call failed with status code: {new_response.status_code}")
         else:
             if response.text:  # Check if response is not empty
                 data = response.json()
