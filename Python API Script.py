@@ -15,7 +15,7 @@ def call_api():
     base_id = "177962"  # Base ID
     random_id = generate_random_id(base_id)  # Generate a new random ID
     print(random_id, 'random_id')
-    url = "http://apid.adfalcon.com/rtb/bid?pid=712"
+    url = "http://apid.adfalcon.com/rtb/bid?pid="
     payload = {
         "id": random_id,
         "imp": [
